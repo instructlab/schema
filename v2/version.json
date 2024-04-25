@@ -1,0 +1,15 @@
+{
+    "title": "Taxonomy Document Schema Version",
+    "type": "object",
+    "required": [
+        "version"
+    ],
+    "properties": {
+        "version": {
+            "description": "The schema version of the taxonomy document.",
+            "type": "integer",
+            "$comment": "This value must match the number in the containing folder.",
+            "const": 2
+        }
+    }
+}
