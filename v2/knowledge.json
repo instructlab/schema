@@ -24,12 +24,14 @@
         },
         "task_description": {
             "description": "A description of the skill.",
-            "type": "string"
+            "type": "string",
+            "minLength": 1
         },
         "seed_examples": {
             "description": "An array of seed examples for synthetic data generation.",
             "type": "array",
-            "minItems": 1,
+            "minItems": 5,
+            "uniqueItems": true,
             "items": {
                 "type": "object",
                 "required": [
