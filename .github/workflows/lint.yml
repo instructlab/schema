@@ -1,0 +1,71 @@
+# SPDX-License-Identifier: Apache-2.0
+
+name: Lint Schema
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - 'v*/**/*.json'
+      - '.github/workflows/lint.yml' # This workflow
+      - '.github/scripts/**' # Scripts used by this workflow
+
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'v*/**/*.json'
+      - '.github/workflows/lint.yml' # This workflow
+      - '.github/scripts/**' # Scripts used by this workflow
+
+env:
+  LC_ALL: en_US.UTF-8
+
+defaults:
+  run:
+    shell: bash
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Harden Runner"
+        uses: step-security/harden-runner@a4aa98b93cab29d9b1101a6143fb8bce00e2eac4 # v2.7.1
+        with:
+          egress-policy: audit # TODO: change to 'egress-policy: block' after couple of runs
+
+      - name: "Checkout"
+        uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b # v4.1.4
+        with:
+          fetch-depth: 0
+
+      - name: "Setup Python"
+        uses: actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d # v5.1.0
+        with:
+          python-version: "3.11"
+
+      - name: "Install Python Packages"
+        run: |
+          pip install -r .github/scripts/requirements.txt
+
+      - name: "Find changed schema files"
+        id: changed-files
+        uses: tj-actions/changed-files@0874344d6ebbaa00a27da73276ae7162fadcaf69 # v44.3.0
+        with:
+          files: |
+            v*/**/*.json
+
+      - name: "Check changed schema file contents"
+        if: steps.changed-files.outputs.any_changed == 'true'
+        run: |
+          check-jsonschema --verbose --schemafile https://json-schema.org/draft/2020-12/schema ${{ steps.changed-files.outputs.all_changed_files }}
+
+      - name: "Check all schema file contents"
+        if: steps.changed-files.outputs.any_changed != 'true'
+        run: |
+          check-jsonschema --verbose --schemafile https://json-schema.org/draft/2020-12/schema $(find v* -name "*.json")
