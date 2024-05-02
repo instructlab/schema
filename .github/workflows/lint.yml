@@ -68,4 +68,5 @@ jobs:
       - name: "Check all schema file contents"
         if: steps.changed-files.outputs.any_changed != 'true'
         run: |
+          # shellcheck disable=SC2046
           check-jsonschema --verbose --schemafile https://json-schema.org/draft/2020-12/schema $(find v* -name "*.json")
