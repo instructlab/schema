@@ -56,10 +56,19 @@
         "document": {
             "description": "The knowledge documents.",
             "type": "object",
-            "required": [
-                "repo",
-                "commit",
-                "patterns"
+            "anyOf": [
+                {
+                    "required": [
+                        "repo",
+                        "commit",
+                        "patterns"
+                    ]
+                },
+                {
+                    "required": [
+                        "confluence"
+                    ]
+                }
             ],
             "unevaluatedProperties": false,
             "properties": {
@@ -92,6 +101,35 @@
                             "folder/*.md",
                             "folder/knowledge_doc.md"
                         ]
+                    }
+                },
+                "confluence": {
+                    "type": "object",
+                    "required": [
+                        "host",
+                        "spaces"
+                    ],
+                    "properties": {
+                        "host": { "type": "string" },
+                        "spaces": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "name": { "type": "string" },
+                                    "pages": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object",
+                                            "properties": {
+                                                "title": { "type": "string" },
+                                                "version": { "type": "integer" }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
