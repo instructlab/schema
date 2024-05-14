@@ -56,10 +56,19 @@
         "document": {
             "description": "The knowledge documents.",
             "type": "object",
-            "required": [
-                "repo",
-                "commit",
-                "patterns"
+            "anyOf": [
+                {
+                    "required": [
+                        "repo",
+                        "commit",
+                        "patterns"
+                    ]
+                },
+                {
+                    "required": [
+                        "wiki"
+                    ]
+                }
             ],
             "unevaluatedProperties": false,
             "properties": {
@@ -92,6 +101,26 @@
                             "folder/*.md",
                             "folder/knowledge_doc.md"
                         ]
+                    }
+                },
+                "wiki": {
+                    "type": "object",
+                    "required": [
+                        "host",
+                        "spaces"
+                    ],
+                    "properties": {
+                        "host": { "type": "string" },
+                        "pages": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "title": { "type": "string" },
+                                    "oldid": { "type": "integer" }
+                                }
+                            }
+                        }
                     }
                 }
             }
