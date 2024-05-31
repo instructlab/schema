@@ -16,9 +16,14 @@
             "minLength": 1
         },
         "task_description": {
-            "description": "A description of the skill.",
+            "description": "A description of the task which is used in prompts to the teacher model during synthetic data generation. The description should be detailed and prescriptive to improve the teacher model's responses.",
             "type": "string",
-            "minLength": 1
+            "minLength": 1,
+            "examples": [
+                "Extracting content from a financial report and providing it in bulleted format",
+                "Providing engaging explanations for common questions across diverse topics at a primary school level",
+                "Assume the roles of historical figures and provide engaging explanations for common questions across diverse topics"
+            ]
         },
         "seed_examples": {
             "description": "An array of seed examples for synthetic data generation.",
@@ -34,7 +39,7 @@
                 "unevaluatedProperties": false,
                 "properties": {
                     "context": {
-                        "description": "Information that the model is expected to take into account during processing. This is different from knowledge, where the model is expected to gain facts and background knowledge from the tuning process.",
+                        "description": "Information that the teacher model is expected to take into account during processing. This is different from knowledge, where the model is expected to gain facts and background knowledge from the tuning process.",
                         "type": "string",
                         "minLength": 1
                     },
