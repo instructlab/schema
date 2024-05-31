@@ -18,14 +18,23 @@
             "minLength": 1
         },
         "domain": {
-            "description": "The knowledge domain.",
+            "description": "The knowledge domain which is used in prompts to the teacher model during synthetic data generation. The domain should be brief such as the title to a textbook chapter or section.",
             "type": "string",
-            "minLength": 1
+            "minLength": 1,
+            "examples": [
+                "Chemistry",
+                "History",
+                "Pop culture"
+            ]
         },
         "task_description": {
-            "description": "A description of the skill.",
+            "description": "A description of the task which is used in prompts to the teacher model during synthetic data generation. The description should be detailed and prescriptive to improve the teacher model's responses.",
             "type": "string",
-            "minLength": 1
+            "minLength": 1,
+            "examples": [
+                "To teach a language model about softball history",
+                "To teach a language model about tabby cats"
+            ]
         },
         "seed_examples": {
             "description": "An array of seed examples for synthetic data generation.",
@@ -68,7 +77,7 @@
                     "type": "string",
                     "minLength": 1,
                     "examples": [
-                        "https://github.com/instructlab/instructlab"
+                        "https://github.com/instructlab/instructlab.git"
                     ]
                 },
                 "commit": {
@@ -76,7 +85,7 @@
                     "type": "string",
                     "minLength": 1,
                     "examples": [
-                        "951999a"
+                        "951999afdc59c46d325493568193b40bd5439c9e"
                     ]
                 },
                 "patterns": {
