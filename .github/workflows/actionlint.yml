@@ -7,11 +7,13 @@ on:
       - "main"
     paths:
       - '.github/workflows/*.ya?ml'
+      - '.github/workflows/actionlint.*' # This workflow
   pull_request:
     branches:
       - "main"
     paths:
       - '.github/workflows/*.ya?ml'
+      - '.github/workflows/actionlint.*' # This workflow
 
 env:
   LC_ALL: en_US.UTF-8
@@ -39,11 +41,10 @@ jobs:
           submodules: true
 
       - name: "Download actionlint"
-        id: get_actionlint
         run: |
-          bash <(curl https://raw.githubusercontent.com/rhysd/actionlint/2d26fef7e97b8ab345791f5ade3252da47d083e3/scripts/download-actionlint.bash)
+          docker build --tag actionlint - < .github/workflows/actionlint.dockerfile
 
       - name: "Check workflow files"
         run: |
           echo "::add-matcher::.github/workflows/matchers/actionlint.json"
-          ${{ steps.get_actionlint.outputs.executable }} -color
+          docker run --volume="${PWD}:/repo" --workdir=/repo actionlint -color
