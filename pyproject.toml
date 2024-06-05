@@ -1,0 +1,71 @@
+# SPDX-License-Identifier: Apache-2.0
+
+[build-system]
+requires = ["setuptools>=64", "setuptools_scm>=8"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "instructlab-schema"
+authors = [{ name = "InstructLab", email = "dev@instructlab.ai" }]
+description = "InstructLab Taxonomy Schema"
+readme = "README.md"
+license = { text = "Apache-2.0" }
+requires-python = ">=3.9"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+dynamic = ["dependencies", "optional-dependencies", "version"]
+
+[project.urls]
+homepage = "https://instructlab.ai"
+source = "https://github.com/instructlab/schema"
+issues = "https://github.com/instructlab/schema/issues"
+
+[tool.setuptools_scm]
+version_file = "src/instructlab/schema/_version.py"
+local_scheme = "no-local-version"                   # do not include +gREV local version, required for Test PyPI upload
+
+[tool.mypy]
+python_version = "3.9"
+exclude = ["^src/instructlab/schema/_version\\.py$"]
+
+[tool.ruff]
+target-version = "py39"
+src = ["src", "tests"]
+extend-exclude = ["src/instructlab/schema/_version.py"]
+
+[tool.ruff.lint]
+select = [
+    "B",   # flake8-bugbear
+    "E",   # pycodestyle
+    "F",   # Pyflakes
+    "Q",   # flake8-quotes
+    "I",   # isort
+    "UP",  # pyupgrade
+    "SIM", # flake8-simplify
+    "TID", # flake8-tidy-imports
+]
+
+[tool.pylint.main]
+py-version = "3.9"
+source-roots = ["src", "tests"]
+ignore = ["_version.py"]
+
+[tool.pylint."messages control"]
+disable = [
+    "missing-class-docstring",
+    "missing-module-docstring",
+    "missing-function-docstring",
+]
+
+[tool.pylint.reports]
+reports = true
+score = true

@@ -1,3 +1,0 @@
-# SPDX-License-Identifier: Apache-2.0
-
-check-jsonschema>=0.28.2
