@@ -10,14 +10,13 @@ authors = [{ name = "InstructLab", email = "dev@instructlab.ai" }]
 description = "InstructLab Taxonomy Schema"
 readme = "README.md"
 license = { text = "Apache-2.0" }
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 classifiers = [
     "Development Status :: 4 - Beta",
     "License :: OSI Approved :: Apache Software License",
     "Operating System :: OS Independent",
     "Topic :: Scientific/Engineering :: Artificial Intelligence",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
@@ -34,11 +33,11 @@ version_file = "src/instructlab/schema/_version.py"
 local_scheme = "no-local-version"                   # do not include +gREV local version, required for Test PyPI upload
 
 [tool.mypy]
-python_version = "3.9"
+python_version = "3.10"
 exclude = ["^src/instructlab/schema/_version\\.py$"]
 
 [tool.ruff]
-target-version = "py39"
+target-version = "py310"
 src = ["src", "tests"]
 extend-exclude = ["src/instructlab/schema/_version.py"]
 
@@ -55,7 +54,7 @@ select = [
 ]
 
 [tool.pylint.main]
-py-version = "3.9"
+py-version = "3.10"
 source-roots = ["src", "tests"]
 ignore = ["_version.py"]
 

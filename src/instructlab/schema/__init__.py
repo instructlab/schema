@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: Apache-2.0
+
 """InstructLab Taxonomy Schema"""
 
 # Standard
@@ -5,7 +7,7 @@ from importlib import resources
 
 try:
     from importlib.resources.abc import Traversable  # type: ignore[import-not-found]
-except ImportError:  # python>=3.9,<3.11
+except ImportError:  # python<3.11
     from importlib.abc import Traversable
 
 __all__ = ["schema_versions"]
