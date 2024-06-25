@@ -1,0 +1,58 @@
+# SPDX-License-Identifier: Apache-2.0
+
+created_by: test-bot
+version: 3
+domain: test-domain
+seed_examples:
+  - context: |
+      some context 1
+    questions_and_answers:
+      - question: What is this knowledge about?
+        answer: It's a knowledge that makes the tests more knowledgeable
+      - question: "question1_2"
+        answer: "answer1_2"
+      - question: "question1_3"
+        answer: "answer1_3"
+  - context: |
+      some context 2
+    questions_and_answers:
+      - question: What is this knowledge about?
+        answer: It's a knowledge that makes the tests more knowledgeable
+      - question: "question2_2"
+        answer: "answer2_2"
+      - question: "question2_3"
+        answer: "answer2_3"
+  - context: |
+      some context 3
+    questions_and_answers:
+      - question: What is this knowledge about?
+        answer: It's a knowledge that makes the tests more knowledgeable
+      - question: "question3_2"
+        answer: "answer3_2"
+      - question: "question3_3"
+        answer: "answer3_3"
+  - context: |
+      some context 4
+    questions_and_answers:
+      - question: What is this knowledge about?
+        answer: It's a knowledge that makes the tests more knowledgeable
+      - question: "question4_2"
+        answer: "answer4_2"
+      - question: "question4_3"
+        answer: "answer4_3"
+  - context: |
+      some context 4
+    questions_and_answers:
+      - question: What is this knowledge about?
+        answer: It's a knowledge that makes the tests more knowledgeable
+      - question: "question5_2"
+        answer: "answer5_2"
+      - question: "question5_3"
+        answer: "answer5_3"
+document_outline: For knowledge tests
+document:
+  repo: https://github.com/example-org/example-repo
+  commit: a0c3c8e
+  patterns:
+    - "*.md"
+    - docs/*.md

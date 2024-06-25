@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 [build-system]
-requires = ["setuptools>=64", "setuptools_scm>=8"]
+requires = ["setuptools>=70.1.0", "setuptools_scm>=8"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -21,7 +21,15 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
 ]
-dynamic = ["dependencies", "optional-dependencies", "version"]
+dependencies = [
+    "typing_extensions",
+    "jsonschema>=4.22.0",
+    "PyYAML>=6.0.0",
+    # The below library should NOT be imported into any python files
+    # We only use the command via subprocess
+    "yamllint>=1.35.1",
+]
+dynamic = ["version"]
 
 [project.urls]
 homepage = "https://instructlab.ai"
@@ -40,6 +48,7 @@ exclude = ["^src/instructlab/schema/_version\\.py$"]
 target-version = "py310"
 src = ["src", "tests"]
 extend-exclude = ["src/instructlab/schema/_version.py"]
+line-length = 180
 
 [tool.ruff.lint]
 select = [
@@ -53,10 +62,22 @@ select = [
     "TID", # flake8-tidy-imports
 ]
 
+[tool.ruff.lint.flake8-tidy-imports.banned-api]
+"yamllint".msg = "yamllint is for use as a command via subprocess."
+
 [tool.pylint.main]
 py-version = "3.10"
 source-roots = ["src", "tests"]
 ignore = ["_version.py"]
+
+[tool.pylint.design]
+max-branches = 20
+max-line-length = 180
+max-locals = 20
+min-public-methods = 1
+
+[tool.pylint.format]
+max-args = 8
 
 [tool.pylint."messages control"]
 disable = [

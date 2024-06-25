@@ -13,3 +13,10 @@ updates:
     directory: "/.github/workflows"
     schedule:
       interval: "daily"
+
+  # Maintain dependencies for Python code
+  - package-ecosystem: "pip"
+    directory: "/"
+    versioning-strategy: "increase-if-necessary"
+    schedule:
+      interval: "daily"
