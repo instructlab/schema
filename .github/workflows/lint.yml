@@ -48,7 +48,7 @@ jobs:
               tox -e jsonschema
           - name: "ruff"
             commands: |
-              tox -e ruff -- check
+              tox -e ruffcheck
           - name: "pylint"
             commands: |
               echo "::add-matcher::.github/workflows/matchers/pylint.json"
