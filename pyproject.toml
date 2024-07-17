@@ -69,3 +69,8 @@ disable = [
 [tool.pylint.reports]
 reports = true
 score = true
+
+[tool.check-wheel-contents]
+ignore = [
+    "W002", # ignore duplicate files
+]
