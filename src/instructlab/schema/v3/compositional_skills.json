@@ -1,0 +1,60 @@
+{
+    "title": "Compositional Skill",
+    "description": "A compositional skill.",
+    "type": "object",
+    "$ref": "./version.json",
+    "required": [
+        "created_by",
+        "task_description",
+        "seed_examples"
+    ],
+    "unevaluatedProperties": false,
+    "properties": {
+        "created_by": {
+            "description": "The GitHub username of the contributor.",
+            "type": "string",
+            "minLength": 1
+        },
+        "task_description": {
+            "description": "A description of the task which is used in prompts to the teacher model during synthetic data generation. The description should be detailed and prescriptive to improve the teacher model's responses.",
+            "type": "string",
+            "minLength": 1,
+            "examples": [
+                "Extracting content from a financial report and providing it in bulleted format",
+                "Providing engaging explanations for common questions across diverse topics at a primary school level",
+                "Assume the roles of historical figures and provide engaging explanations for common questions across diverse topics"
+            ]
+        },
+        "seed_examples": {
+            "description": "An array of seed examples for synthetic data generation.",
+            "type": "array",
+            "minItems": 5,
+            "uniqueItems": true,
+            "items": {
+                "type": "object",
+                "required": [
+                    "question",
+                    "answer"
+                ],
+                "unevaluatedProperties": false,
+                "properties": {
+                    "context": {
+                        "description": "Information that the teacher model is expected to take into account during processing. This is different from knowledge, where the model is expected to gain facts and background knowledge from the tuning process.",
+                        "type": "string",
+                        "minLength": 1
+                    },
+                    "question": {
+                        "description": "A question used for synthetic data generation.",
+                        "type": "string",
+                        "minLength": 1
+                    },
+                    "answer": {
+                        "description": "The desired response for the question.",
+                        "type": "string",
+                        "minLength": 1
+                    }
+                }
+            }
+        }
+    }
+}
