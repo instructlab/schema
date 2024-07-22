@@ -113,6 +113,7 @@ jobs:
                   inputs: |
                       ./dist/*.tar.gz
                       ./dist/*.whl
+                  release-signing-artifacts: false
 
             - name: "Upload artifacts and signatures to GitHub release"
               run: |
