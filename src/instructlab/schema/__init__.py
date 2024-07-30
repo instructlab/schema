@@ -1,14 +1,22 @@
+# SPDX-License-Identifier: Apache-2.0
+
 """InstructLab Taxonomy Schema"""
 
 # Standard
-from importlib import resources
+import importlib.resources
+from importlib.abc import Traversable
 
-try:
-    from importlib.resources.abc import Traversable  # type: ignore[import-not-found]
-except ImportError:  # python>=3.9,<3.11
-    from importlib.abc import Traversable
+__all__ = ["schema_base", "schema_versions"]
 
-__all__ = ["schema_versions"]
+
+def schema_base() -> Traversable:
+    """Return the schema base.
+
+    Returns:
+        Traversable: The base for the schema versions.
+    """
+    base = importlib.resources.files(__name__)
+    return base
 
 
 def schema_versions() -> list[Traversable]:
@@ -17,9 +25,8 @@ def schema_versions() -> list[Traversable]:
     Returns:
         list[Traversable]: A sorted list of schema versions.
     """
-    schema_base = resources.files(__package__)
     versions = sorted(
-        (v for v in schema_base.iterdir() if v.name[0] == "v" and v.name[1:].isdigit()),
+        (v for v in schema_base().iterdir() if v.name[0] == "v" and v.name[1:].isdigit()),
         key=lambda k: int(k.name[1:]),
     )
     return versions

@@ -1,6 +1,7 @@
 {
+    "deprecated": true,
     "title": "Knowledge",
-    "description": "A knowledge skill.",
+    "description": "Version 2 is not supported for knowledge. Minimum supported version is 3.",
     "type": "object",
     "$ref": "./version.json",
     "required": [
