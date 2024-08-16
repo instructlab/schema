@@ -30,7 +30,7 @@ logger = logging.getLogger(__name__)
 DEFAULT_TAXONOMY_FOLDERS: list[str] = ["compositional_skills", "knowledge"]
 """Taxonomy folders which are also the schema names"""
 
-DEFAULT_YAMLLINT_CONFIG: str = "{extends: relaxed, rules: {line-length: {max: 120}}}"
+DEFAULT_YAMLLINT_CONFIG: str = "{extends: relaxed, rules: {line-length: disable}}"
 """Default yamllint configuration"""
 
 

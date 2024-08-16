@@ -25,7 +25,7 @@ class TestParsingLogging:
         parser = TaxonomyParser(schema_version=0, message_format=TaxonomyMessageFormat.LOGGING)
         taxonomy = parser.parse(rel_path)
 
-        assert_that(taxonomy.warnings).is_greater_than_or_equal_to(1)
+        assert_that(taxonomy.warnings).is_zero()
         assert_that(taxonomy.errors).is_greater_than_or_equal_to(2)
         assert_that(taxonomy.path.as_posix()).is_equal_to(test_yaml)
         assert_that(taxonomy.rel_path).is_equal_to(rel_path)
@@ -33,10 +33,6 @@ class TestParsingLogging:
             "message",
             filter=self.message_filter(f"{re.escape(test_yaml)}:"),
         ).is_length(len(caplog.records))
-        assert_that(caplog.records).extracting(
-            "levelno",
-            filter=self.message_filter(r"line too long"),
-        ).contains_only(logging.WARNING)
         assert_that(caplog.records).extracting(
             "levelno",
             filter=self.message_filter(r"Unevaluated properties.*createdby"),
@@ -47,9 +43,15 @@ class TestParsingLogging:
         ).contains_only(logging.ERROR)
 
     def test_invalid_yamlint_strict(self, caplog: pytest.LogCaptureFixture, testdata: pathlib.Path) -> None:
+        yamllint_config = "{extends: relaxed, rules: {line-length: {max: 120}}}"
         test_yaml = "compositional_skills/invalid_yaml/qna.yaml"
         rel_path = testdata.joinpath(test_yaml)
-        parser = TaxonomyParser(schema_version=0, yamllint_strict=True, message_format=TaxonomyMessageFormat.LOGGING)
+        parser = TaxonomyParser(
+            schema_version=0,
+            message_format=TaxonomyMessageFormat.LOGGING,
+            yamllint_config=yamllint_config,
+            yamllint_strict=True,
+        )
         taxonomy = parser.parse(rel_path)
 
         assert_that(taxonomy.warnings).is_zero()
@@ -295,7 +297,7 @@ class TestParsingLogging:
         parser = TaxonomyParser(schema_version=2, message_format=TaxonomyMessageFormat.LOGGING)
         taxonomy = parser.parse(rel_path)
 
-        assert_that(taxonomy.warnings).is_greater_than_or_equal_to(1)
+        assert_that(taxonomy.warnings).is_zero()
         assert_that(taxonomy.errors).is_greater_than_or_equal_to(1)
         assert_that(taxonomy.path.as_posix()).is_equal_to(test_yaml)
         assert_that(taxonomy.rel_path).is_equal_to(rel_path)
@@ -304,10 +306,6 @@ class TestParsingLogging:
             "message",
             filter=self.message_filter(f"{re.escape(test_yaml)}:"),
         ).is_length(len(caplog.records))
-        assert_that(caplog.records).extracting(
-            "levelno",
-            filter=self.message_filter(r"line too long"),
-        ).contains_only(logging.WARNING)
         assert_that(caplog.records).extracting(
             "levelno",
             filter=self.message_filter(r"version.*required property"),
@@ -321,7 +319,7 @@ class TestParsingStdout:
         parser = TaxonomyParser(schema_version=0, message_format=TaxonomyMessageFormat.GITHUB)
         taxonomy = parser.parse(rel_path)
 
-        assert_that(taxonomy.warnings).is_greater_than_or_equal_to(1)
+        assert_that(taxonomy.warnings).is_zero()
         assert_that(taxonomy.errors).is_greater_than_or_equal_to(2)
         assert_that(taxonomy.path.as_posix()).is_equal_to(test_yaml)
         assert_that(taxonomy.rel_path).is_equal_to(rel_path)
@@ -340,7 +338,7 @@ class TestParsingStdout:
         parser = TaxonomyParser(schema_version=0, message_format=TaxonomyMessageFormat.STANDARD)
         taxonomy = parser.parse(rel_path)
 
-        assert_that(taxonomy.warnings).is_greater_than_or_equal_to(1)
+        assert_that(taxonomy.warnings).is_zero()
         assert_that(taxonomy.errors).is_greater_than_or_equal_to(2)
         assert_that(taxonomy.path.as_posix()).is_equal_to(test_yaml)
         assert_that(taxonomy.rel_path).is_equal_to(rel_path)
@@ -359,7 +357,7 @@ class TestParsingStdout:
         parser = TaxonomyParser(schema_version=0)
         taxonomy = parser.parse(rel_path)
 
-        assert_that(taxonomy.warnings).is_greater_than_or_equal_to(1)
+        assert_that(taxonomy.warnings).is_zero()
         assert_that(taxonomy.errors).is_greater_than_or_equal_to(2)
         assert_that(taxonomy.path.as_posix()).is_equal_to(test_yaml)
         assert_that(taxonomy.rel_path).is_equal_to(rel_path)
