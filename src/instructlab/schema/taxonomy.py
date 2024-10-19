@@ -27,7 +27,7 @@ from . import schema_base, schema_versions
 
 logger = logging.getLogger(__name__)
 
-DEFAULT_TAXONOMY_FOLDERS: list[str] = ["compositional_skills", "knowledge"]
+DEFAULT_TAXONOMY_FOLDERS: list[str] = ["compositional_skills", "knowledge", "foundational_skills"]
 """Taxonomy folders which are also the schema names"""
 
 DEFAULT_YAMLLINT_CONFIG: str = "{extends: relaxed, rules: {line-length: disable}}"
