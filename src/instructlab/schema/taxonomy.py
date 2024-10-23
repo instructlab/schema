@@ -264,6 +264,8 @@ class TaxonomyParser:
                 stdout=subprocess.PIPE,
                 stderr=subprocess.STDOUT,
             )
+            if "invalid config" in result.stdout:
+                logger.warning(f"Invalid custom rules: {result.stdout}")
         except FileNotFoundError:
             logger.warning(
                 "could not run yamllint command",
