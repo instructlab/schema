@@ -293,6 +293,18 @@ class TaxonomyParser:
                             line=line,
                             col=col,
                         )
+                elif line.startswith("invalid config:"):
+                    taxonomy.error(
+                        "yamllint_config: %s",
+                        line,
+                    )
+                    return
+                elif line.startswith("Traceback"):
+                    taxonomy.error(
+                        'yamllint_config: invalid config: "%s"',
+                        self.yamllint_config,
+                    )
+                    return
 
     def _schema_validate(self, text: str, taxonomy: Taxonomy) -> None:
         retrieve = functools.partial(_retrieve, f"v{taxonomy.version}")
