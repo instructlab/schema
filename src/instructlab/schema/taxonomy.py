@@ -34,8 +34,11 @@ DEFAULT_YAMLLINT_CONFIG: str = "{extends: relaxed, rules: {line-length: disable}
 """Default yamllint configuration"""
 
 
+# pylint: disable=unnecessary-pass
 class TaxonomyReadingException(Exception):
     """An exception raised during reading of the taxonomy."""
+
+    pass
 
 
 class TaxonomyMessageFormat(enum.Enum):

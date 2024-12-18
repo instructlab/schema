@@ -6,12 +6,32 @@ import os
 import pathlib
 import re
 from collections.abc import Callable
+from unittest.mock import patch
 
 # Third Party
 import pytest
 from assertpy import assert_that
 
-from instructlab.schema.taxonomy import TaxonomyMessageFormat, TaxonomyParser
+import instructlab.schema.taxonomy  # noqa: F401
+from instructlab.schema.taxonomy import TaxonomyMessageFormat, TaxonomyParser, TaxonomyReadingException
+
+
+class TestParserInit:
+    def test_parser_init_successful_when_schema_version_provided(self) -> None:
+        taxonomy = TaxonomyParser(schema_version=2)
+        assert_that(taxonomy).is_instance_of(TaxonomyParser)
+        assert_that(taxonomy.schema_version).is_equal_to(2)
+
+    def test_parser_init_successful_when_schema_version_not_provided_and_defaults_to_latest(self) -> None:
+        taxonomy = TaxonomyParser(schema_version=None)
+        assert_that(taxonomy.schema_version).is_equal_to(int(instructlab.schema.schema_versions()[-1].name[1:]))
+
+    @patch.object(instructlab.schema.taxonomy, "schema_versions", return_value=[])
+    def test_parser_init_fails_when_schema_version_not_found(self, mock_schema_versions) -> None:
+        with pytest.raises(TaxonomyReadingException) as exc_info:
+            TaxonomyParser(schema_version=None)
+        mock_schema_versions.assert_called_once()
+        assert_that(str(exc_info.value)).matches(r'Schema base ".*" does not contain any schema versions')
 
 
 class TestParsingLogging:
