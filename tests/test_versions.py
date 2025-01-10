@@ -31,19 +31,19 @@ class TestVersions:
         versions = schema_versions()
         assert_that(versions).is_not_none().is_not_empty()
         for i in range(len(versions)):
-            version = base.joinpath(f"v{i+1}")
+            version = base.joinpath(f"v{i + 1}")
             self._load_schemas(version)
 
     def test_schema_versions(self) -> None:
         versions = schema_versions()
         assert_that(versions).is_not_none().is_not_empty()
         for i, version in enumerate(versions):
-            assert_that(version).has_name(f"v{i+1}")
+            assert_that(version).has_name(f"v{i + 1}")
             self._load_schemas(version)
 
     def test_importlib_schema(self) -> None:
         versions = schema_versions()
         assert_that(versions).is_not_none().is_not_empty()
         for i in range(len(versions)):
-            version = importlib.resources.files(f"instructlab.schema.v{i+1}")
+            version = importlib.resources.files(f"instructlab.schema.v{i + 1}")
             self._load_schemas(version)
