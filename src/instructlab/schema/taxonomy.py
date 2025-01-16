@@ -429,6 +429,6 @@ class TaxonomyParser:
 
             self._schema_validate(text=text, taxonomy=taxonomy)
         except Exception as e:
-            raise TaxonomyReadingException from e
+            raise TaxonomyReadingException(str(e)) from e
 
         return taxonomy
