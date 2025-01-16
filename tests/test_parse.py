@@ -34,6 +34,22 @@ class TestParserInit:
         assert_that(str(exc_info.value)).matches(r'Schema base ".*" does not contain any schema versions')
 
 
+class TestTaxonomyReadingExceptionDisplay:
+    def test_invalid_yaml_with_taxonomy_reading_exception(self, testdata: pathlib.Path) -> None:
+        test_yaml = "compositional_skills/invalid_yaml_1/qna.yaml"
+        rel_path = testdata.joinpath(test_yaml)
+        parser = TaxonomyParser(schema_version=2)
+
+        with pytest.raises(TaxonomyReadingException) as exc_info:
+            parser.parse(rel_path)
+
+        exception = exc_info.value
+        assert_that(exception).is_instance_of(TaxonomyReadingException)
+        assert_that(str(exception)).contains("while scanning a simple key")
+        assert_that(str(exception)).contains("seed_examples:xx")
+        assert_that(str(exception.__cause__)).contains("could not find expected ':'")
+
+
 class TestParsingLogging:
     def message_filter(self, regex: str) -> Callable[[logging.LogRecord], bool]:
         pattern = re.compile(regex)
