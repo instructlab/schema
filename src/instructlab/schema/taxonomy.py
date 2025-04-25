@@ -333,11 +333,15 @@ class TaxonomyParser:
                         yq_expression = f"{yaml_path} | line"
                         line = subprocess.check_output(["yq", yq_expression], input=text, text=True)
                         line = line.strip() if line else 1
-                    except (subprocess.CalledProcessError, FileNotFoundError) as e:
-                        if isinstance(e, FileNotFoundError):
-                            self.yq_available = False
+                    except subprocess.CalledProcessError as e_yq:
                         logger.warning(
-                            "could not run yq command",
+                                f"Failed to validate file {taxonomy.path}, error: {e_yq}\n"
+                                f"Failed command: yq \"{yq_expression}\" {taxonomy.path}"
+                        )
+                    except FileNotFoundError as e:
+                        self.yq_available = False
+                        logger.warning(
+                            "Missing yq command, could not run yq command",
                             exc_info=True,
                         )
                 if validation_error.validator == "minItems":
