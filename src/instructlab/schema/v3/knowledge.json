@@ -76,8 +76,6 @@
             "description": "The knowledge documents.",
             "type": "object",
             "required": [
-                "repo",
-                "commit",
                 "patterns"
             ],
             "unevaluatedProperties": false,
@@ -85,7 +83,6 @@
                 "repo": {
                     "description": "The URL to a Git repository holding the knowledge documents.",
                     "type": "string",
-                    "minLength": 1,
                     "examples": [
                         "https://github.com/instructlab/instructlab.git"
                     ]
@@ -93,9 +90,16 @@
                 "commit": {
                     "description": "The commit in the Git repository containing the knowledge documents.",
                     "type": "string",
-                    "minLength": 1,
                     "examples": [
                         "951999afdc59c46d325493568193b40bd5439c9e"
+                    ]
+                },
+                "folder": {
+                    "description": "The absolute path to documents in the local server.",
+                    "type": "string",
+                    "minLength": 1,
+                    "examples": [
+                        "/home/user/docs/"
                     ]
                 },
                 "patterns": {
