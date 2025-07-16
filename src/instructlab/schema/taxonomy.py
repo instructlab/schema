@@ -321,7 +321,7 @@ class TaxonomyParser:
             validator_cls = validator_for(schema)
             # mypy doesn't understand attrs classes fields, see: https://github.com/python/mypy/issues/5406
             registry: SchemaRegistry = Registry(retrieve=retrieve)  # type: ignore[call-arg]
-            validator: Validator = validator_cls(schema, registry=registry)
+            validator: Validator = validator_cls(schema, registry=registry)  # type: ignore[arg-type]
 
             for validation_error in validator.iter_errors(taxonomy.contents):
                 yaml_path = validation_error.json_path[1:]
