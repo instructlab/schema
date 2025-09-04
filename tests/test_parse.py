@@ -78,7 +78,7 @@ class TestParsingLogging:
             filter=self.message_filter(r"created_by.*required property"),
         ).contains_only(logging.ERROR)
 
-    def test_invalid_yamlint_strict(self, caplog: pytest.LogCaptureFixture, testdata: pathlib.Path) -> None:
+    def test_invalid_yamllint_strict(self, caplog: pytest.LogCaptureFixture, testdata: pathlib.Path) -> None:
         yamllint_config = "{extends: relaxed, rules: {line-length: {max: 120}}}"
         test_yaml = "compositional_skills/invalid_yaml/qna.yaml"
         rel_path = testdata.joinpath(test_yaml)
@@ -141,6 +141,46 @@ class TestParsingLogging:
         assert_that(caplog.records).extracting(
             "levelno",
             filter=self.message_filter(r"created_by.*required property"),
+        ).contains_only(logging.ERROR)
+
+    def test_empty_yamllint_config(self, caplog: pytest.LogCaptureFixture, testdata: pathlib.Path) -> None:
+        yamllint_config = ""
+        test_yaml = "compositional_skills/skill_valid/qna.yaml"
+        rel_path = testdata.joinpath(test_yaml)
+        parser = TaxonomyParser(schema_version=0, message_format="logging", yamllint_config=yamllint_config)
+        taxonomy = parser.parse(rel_path)
+
+        assert_that(taxonomy.warnings).is_zero()
+        assert_that(taxonomy.errors).is_equal_to(1)
+        assert_that(taxonomy.path.as_posix()).is_equal_to(test_yaml)
+        assert_that(taxonomy.rel_path).is_equal_to(rel_path)
+        assert_that(caplog.records).extracting(
+            "message",
+            filter=self.message_filter(f"{re.escape(test_yaml)}:"),
+        ).is_length(len(caplog.records))
+        assert_that(caplog.records).extracting(
+            "levelno",
+            filter=self.message_filter(r"invalid config:"),
+        ).contains_only(logging.ERROR)
+
+    def test_invalid_yamllint_config(self, caplog: pytest.LogCaptureFixture, testdata: pathlib.Path) -> None:
+        yamllint_config = "a=b"
+        test_yaml = "compositional_skills/skill_valid/qna.yaml"
+        rel_path = testdata.joinpath(test_yaml)
+        parser = TaxonomyParser(schema_version=0, message_format="logging", yamllint_config=yamllint_config)
+        taxonomy = parser.parse(rel_path)
+
+        assert_that(taxonomy.warnings).is_zero()
+        assert_that(taxonomy.errors).is_equal_to(1)
+        assert_that(taxonomy.path.as_posix()).is_equal_to(test_yaml)
+        assert_that(taxonomy.rel_path).is_equal_to(rel_path)
+        assert_that(caplog.records).extracting(
+            "message",
+            filter=self.message_filter(f"{re.escape(test_yaml)}:"),
+        ).is_length(len(caplog.records))
+        assert_that(caplog.records).extracting(
+            "levelno",
+            filter=self.message_filter(r"invalid config:"),
         ).contains_only(logging.ERROR)
 
     def test_incomplete_skill(self, caplog: pytest.LogCaptureFixture, testdata: pathlib.Path) -> None:
